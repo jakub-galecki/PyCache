@@ -1,7 +1,7 @@
-from unittest.result import TestResult
-from value import Value
-from key import Key
+from PyHashMap.value import Value
+from PyHashMap.key import Key
 import math
+
 
 class Hash:
     def __init__(self, maxSize):
@@ -26,7 +26,7 @@ class Hash:
     def insert(self, key, value):
         key = Key(key)
         value = Value(value)
-        if (self.size >= self.maxSize / 2):
+        if self.size >= self.maxSize / 2:
             self.__resize(2 * self.maxSize)
 
         index = self.__hash(key)
@@ -37,7 +37,7 @@ class Hash:
                 self.values[index] = value
                 return False
             index = (index + 1) % self.maxSize
-        
+
         self.keys[index] = key
         self.values[index] = value
         self.size += 1
@@ -83,5 +83,5 @@ class Hash:
         self.size -= 1
         if self.size > 0 and self.size == self.maxSize / 8:
             self.__resize(math.floor(self.maxSize / 2))
-        
+
         return True
