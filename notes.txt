@@ -1,0 +1,34 @@
+LRU cache should meet the following requirements:
+- Initialize the LRU cache with positive size `capacity`
+- get(key) should return value under key if exists, otherwise return -1
+- put(key, value) update the value of the  key if exists, otherwise add the
+     key-value pair to cache.
+- if the number of keys is greater than capacity, remove least recently used key
+- time complexity: fast access O(1) and update O(1)
+
+
+Two data structures are used in the cache:
+1. Doubly linked list - used to maintain the order. The most recently used item will be
+    near the tail and the least recently used item will be near the head.
+
+2. Hash Map - hashmap is used to map key to address of node in doubly linked list. It is used to speed up
+    cache.
+
+PUT
+====================
+1. Search for the key in hashmap
+2. Different scenarios:
+    - cache hit (key is in the hashmap) - get associated node update value
+        and move it to the tail.
+    - cache miss (key not in the hashmap) - add value to cache
+3. if cache is full:
+    - remove least recently used item.
+    - remove from hashmap
+4. create new node and add it to the end of the linked list
+5. add new item to hashmap, storing newly-created linked list node as the value
+
+
+GET
+====================
+1. search for the key in hashmap
+2. get associated node and move it to the end of the list
