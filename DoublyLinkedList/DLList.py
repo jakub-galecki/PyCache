@@ -1,10 +1,11 @@
 import gc
 
 class Node:
-    def __init__(self, value):
+    def __init__(self, key, value):
         self.next = None
         self.previous = None
         self.value = value
+        self.key = key
 
 
 class DLList:
@@ -12,8 +13,8 @@ class DLList:
         self.head = None
         self.tail = None
 
-    def push_front(self, value):
-        node = Node(value)
+    def push_front(self, key,value):
+        node = Node(key,value)
         node.next = self.head
 
         if self.head:
@@ -24,8 +25,8 @@ class DLList:
             self.head = self.tail = node
             return node
 
-    def push_back(self, value):
-        node = Node(value)
+    def push_back(self, key, value):
+        node = Node(key, value)
         node.previous = self.tail
 
         if not self.tail:
@@ -46,7 +47,7 @@ class DLList:
             self.head = node.next
             node.next = None
             gc.collect()
-            return node.value
+            return node
 
     def pop_back(self):
         if not self.tail:
@@ -57,17 +58,17 @@ class DLList:
             self.tail = node.previous
             node.previous = None
             gc.collect()
-            return node.value
+            return node
 
     def pop_node(self, node):
         if not node.previous:
             self.head = node.next
-            self.head.previous = None
-        elif not node.next:
-            self.tail = node.previous
-            self.tail.next = None
         else:
             node.previous.next = node.next
+        
+        if not node.next:
+            self.tail = node.previous
+        else:
             node.next.previous = node.previous
         gc.collect()
 
